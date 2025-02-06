@@ -1,33 +1,47 @@
 #include "../src/include/file_manager.h"
 #include <iostream>
 
+using namespace std;
+
 int main() {
     fs::path currentPath = fs::current_path();
-    std::string command;
+    string command;
 
     while (true) {
-        std::cout << "\nТекущая директория: " << currentPath << "\n";
+        cout << "\nТекущая директория: " << currentPath << "\n";
         listFiles(currentPath);
 
-        std::cout << "\nКоманды: cd [dir], mkdir [name], rmdir [name], exit\n";
-        std::cout << "> ";
-        std::cin >> command;
+        cout << "\nКоманды: cd [dir], mkdir [name], rmdir [name], rm [file], cp [src] [dest], mv [src] [dest], exit\n";
+        cout << "> ";
+        cin >> command;
 
         if (command == "exit") break;
         else if (command == "cd") {
-            std::string dir;
-            std::cin >> dir;
+            string dir;
+            cin >> dir;
             changeDirectory(currentPath, dir);
         } else if (command == "mkdir") {
-            std::string dirName;
-            std::cin >> dirName;
+            string dirName;
+            cin >> dirName;
             createDirectory(currentPath, dirName);
         } else if (command == "rmdir") {
-            std::string dirName;
-            std::cin >> dirName;
+            string dirName;
+            cin >> dirName;
             removeDirectory(currentPath, dirName);
+        } else if (command == "rm") {
+            string fileName;
+            cin >> fileName;
+            removeFile(currentPath, fileName);
+        } else if (command == "cp") {
+            string source, destination;
+            cin >> source >> destination;
+            copyFile(currentPath, source, destination);
+        } else if (command == "mv") {
+            string source, destination;
+            cin >> source >> destination;
+            moveFile(currentPath, source, destination);
         } else {
-            std::cout << "Неизвестная команда" << '\n';
+            cout << "Неизвестная команда" << '\n';
         }
     }
     return 0;
